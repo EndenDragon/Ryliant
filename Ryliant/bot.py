@@ -22,7 +22,7 @@ class Ryliant(discord.Client):
             return
         if message.content.split() and message.content.split()[0] == "{}verify".format(self.command_prefix):
             self._pending_actions[message.author.id] = "verify"
-            await message.author.send("Please upload an image of your gear, and organization affiliation. Any images/videos of you, past or present fencing at the club. If you are an instructor, please reply with a source that lists you as an instructor. Information sent here will not be shared unless requested.\nType `done` if you're finished with sending your verification.")
+            await message.author.send("Please upload an image of your gear, and organization affiliation, or yourself fencing and write your organization / club affiliation. Any images/videos of you, past or present fencing at the club. If you are an instructor, contact the admins ; or post proof of your identity. Information sent here will not be shared unless requested.\nType `done` if you're finished with sending your verification. You cannot edit after submission.")
         elif message.content.split() and message.content.split()[0] == "{}modmail".format(self.command_prefix):
             self._pending_actions[message.author.id] = "modmail"
             await message.author.send("Messages sent here will be visible to all moderators. They will reply back soon. Please construct your messages to be concise.\nThe next message you post here will be taken and sent. Any subsequent messages after this will not.")
