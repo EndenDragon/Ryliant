@@ -22,7 +22,7 @@ class Ryliant(discord.Client):
             return
         if message.content.split() and message.content.split()[0] == "{}verify".format(self.command_prefix):
             self._pending_actions[message.author.id] = "verify"
-            await message.author.send("Please upload an image of your gear, or yourself fencing and write your organization / club affiliation.\nIf you are an instructor, contact the admins ; or post proof of your identity.\nType `done` if you're finished with sending your verification. You cannot edit after submission.")
+            await message.author.send("Please upload an image of your gear, or yourself fencing and write your organization / club affiliation.\nIf you are an instructor, contact the admins ; or post proof of your identity.\nType `done` if you're finished with sending your verification. You cannot edit after submission. I will provide reference number upon successful submission.")
         elif message.content.split() and message.content.split()[0] == "{}modmail".format(self.command_prefix):
             self._pending_actions[message.author.id] = "modmail"
             await message.author.send("Messages sent here will be visible to all moderators. They will reply back soon. Please construct your messages to be concise.\nThe next message you post here will be taken and sent. Any subsequent messages after this will not.")
@@ -35,7 +35,7 @@ class Ryliant(discord.Client):
                 channel = self.get_channel(self.verify_channel_id)
                 messages = [message]
                 def check(m):
-                    if message.type is discord.MessageType.default and not message.guild and message.author != self.user and (m.content.lower() != 'done' or m.content.lower() != ".done") and m.channel == message.channel:
+                    if message.type is discord.MessageType.default and not message.guild and message.author != self.user and (m.content.lower() != 'done' and m.content.lower() != ".done") and m.channel == message.channel:
                         messages.append(m)
                     return m.content == 'done' and m.channel == message.channel
                 await self.wait_for('message', check=check)
