@@ -37,7 +37,7 @@ class Ryliant(discord.Client):
                 def check(m):
                     if message.type is discord.MessageType.default and not message.guild and message.author != self.user and m.content.lower() not in ["done", ".done"] and m.channel == message.channel:
                         messages.append(m)
-                    return m.content.lower() not in ["done", ".done"] and m.channel == message.channel
+                    return m.content.lower() in ["done", ".done"] and m.channel == message.channel
                 await self.wait_for('message', check=check)
                 await self._handle_dm(messages, "Verification", channel)
             self.remove_from_pending_actions(message.author.id)
