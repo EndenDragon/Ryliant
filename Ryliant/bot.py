@@ -27,6 +27,7 @@ class Ryliant(discord.Client):
         elif message.content.split() and message.content.split()[0] == "{}modmail".format(self.command_prefix):
             self._pending_actions[message.author.id] = "modmail"
             await message.author.send("Messages sent here will be visible to all moderators. They will reply back soon. Please construct your messages to be concise.\nThe next message you post here will be taken and sent. Any subsequent messages after this will not.")
+            await message.delete()
         elif message.type is discord.MessageType.default and not message.guild and message.author != self.user:
             if self._pending_actions.get(message.author.id, None) == "modmail":
                 channel = self.get_channel(self.mod_channel_id)
