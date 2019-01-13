@@ -1,5 +1,6 @@
 import datetime
 import discord
+import asyncio
 #import io
 
 class Ryliant(discord.Client):
@@ -22,7 +23,7 @@ class Ryliant(discord.Client):
             return
         if message.content.split() and message.content.split()[0] == "{}verify".format(self.command_prefix):
             self._pending_actions[message.author.id] = "verify"
-            await message.author.send("Please upload an image of your gear, or yourself fencing and write your organization / club affiliation.\nIf you are an instructor, contact the admins ; or post proof of your identity.\nType `done` if you're finished with sending your verification. You cannot edit after submission. I will provide reference number upon successful submission.")
+            await message.author.send("Please upload an image of your gear, or yourself fencing and write your organization / club affiliation.\nIf you are an instructor, contact the admins ; or post proof of your identity.\nType `done` if you're finished with sending your verification. You cannot edit after submission. I will provide reference number upon successful submission. I will also automatically submit your request after 5 minutes if you do not type `done` after your first message.")
             await message.add_reaction("☑")
         elif message.content.split() and message.content.split()[0] == "{}modmail".format(self.command_prefix):
             self._pending_actions[message.author.id] = "modmail"
@@ -40,7 +41,10 @@ class Ryliant(discord.Client):
                     if message.type is discord.MessageType.default and not message.guild and message.author != self.user and m.content.lower() not in ["done", ".done"] and m.channel == message.channel:
                         messages.append(m)
                     return m.content.lower() in ["done", ".done"] and m.channel == message.channel
-                await self.wait_for('message', check=check)
+                try:
+                    await self.wait_for('message', check=check, timeout=(60.0 * 5))
+                except asyncio.TimeoutError:
+                    await message.channel.send("5 minutes have been elapsed since your first message. I have automatically submitted your request to the team. There is no need to type `done` now that I have sent the request.")
                 await self._handle_dm(messages, "Verification", channel)
             self.remove_from_pending_actions(message.author.id)
 
