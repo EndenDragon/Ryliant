@@ -82,3 +82,4 @@ class Ryliant(discord.Client):
         #await message.channel.send(files=attachments)
         if content2:
             await channel.send(content2)
+            
