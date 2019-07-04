@@ -86,7 +86,7 @@ class Ryliant(discord.Client):
     async def on_raw_reaction_add(self, payload):
         #print(payload.guild_id, payload.channel_id, payload.message_id, payload.emoji) 
         if payload.message_id != 592996628198195205:
-         return
+            return
         server = self.get_guild(payload.guild_id)
         member = server.get_member(payload.user_id) 
         role = server.get_role(592026625034420254) 
