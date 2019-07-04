@@ -82,3 +82,15 @@ class Ryliant(discord.Client):
         #await message.channel.send(files=attachments)
         if content2:
             await channel.send(content2)
+
+    async def on_raw_reaction_add(self, payload):
+        #print(payload.guild_id, payload.channel_id, payload.message_id, payload.emoji) 
+        if payload.message_id != 592996628198195205:
+         return
+        server = self.get_guild(payload.guild_id)
+        member = server.get_member(payload.user_id) 
+        role = server.get_role(592026625034420254) 
+        await member.add_roles(role) 
+        currentDT = datetime.datetime.now()
+        formatted_time = currentDT.strftime("%Y-%m-%d %H:%M:%S")
+        await self.get_channel(596462783713902622).send(f"" + member.name + "#" + member.discriminator + " " + str(payload.user_id ) + " added " + payload.emoji.name + " to " + str(payload.message_id) + " @ " + str(formatted_time) + "\n Joined at " + str(member.joined_at))
